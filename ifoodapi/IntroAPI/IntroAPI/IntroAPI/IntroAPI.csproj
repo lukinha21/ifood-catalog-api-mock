@@ -5,7 +5,6 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>E:\2 Semestre\LP\IntroAPI(1)\IntroAPI\IntroAPI\bin\Debug\net8.0\IntroAPI.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
