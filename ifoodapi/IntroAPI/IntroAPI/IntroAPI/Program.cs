@@ -35,7 +35,7 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Description = $@"<h3>Gerenciamento <b>da API do Ifood</b></h3>
                         <p>
-                            DocumentaÁ„o da API do Ifood....
+                            Documenta√ß√£o da API do Ifood....
                         </p>",
     });
 
@@ -60,7 +60,7 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-    c.RoutePrefix = ""; //habilitar a p·gina inicial da API ser a doc.
+    c.RoutePrefix = ""; //habilitar a p√°gina inicial da API ser a doc.
     c.DocumentTitle = "API do Ifood - API V1";
 });
 
