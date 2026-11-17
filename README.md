@@ -1,29 +1,100 @@
-## NetflixAPI – Gerenciador de Filmes
+# 🍔 iFood Catalog API (mock)
 
-### 📚 Projeto acadêmico desenvolvido na disciplina de Linguagem de Programação I – Unoeste
+API em **ASP.NET Core (.NET 8)** que reproduz a **estrutura de rotas da API de Catálogo do iFood** (catálogos, categorias e produtos de um *merchant*), com documentação **Swagger** gerada a partir dos comentários XML e logs com **Serilog**. É um *mock* para estudo: as rotas, parâmetros e modelos estão definidos e documentados, e todas as respostas retornam `"Ok"`, sem banco de dados.
 
-Este projeto simula uma API RESTful que permite o gerenciamento de um catálogo de filmes. Desenvolvido com C# e .NET, o sistema implementa autenticação via JWT, estrutura organizada por camadas e integração com banco de dados utilizando Entity Framework.
+Projeto acadêmico da disciplina de Linguagem de Programação (Unoeste).
 
-### ⚙️ Tecnologias Utilizadas
-- C# (.NET 6)
-- ASP.NET Core Web API
-- Entity Framework Core
-- SQL Server
-- Autenticação JWT
-- Postman (para testes)
+![.NET](https://img.shields.io/badge/.NET-8-512BD4?logo=dotnet&logoColor=white)
+![C#](https://img.shields.io/badge/C%23-239120?logo=csharp&logoColor=white)
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-Web_API-512BD4?logo=dotnet&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-OpenAPI_3-85EA2D?logo=swagger&logoColor=black)
+![Serilog](https://img.shields.io/badge/Serilog-logs-1E1E1E)
 
-### 🧩 Funcionalidades
-- Cadastro de usuários com autenticação
-- CRUD completo de filmes
-- Associação entre filmes e categorias
-- Proteção de rotas com JWT (login obrigatório)
-- Uso de DTOs para controle de dados trafegados
+## 📸 Screenshots
 
-### 🎯 Objetivos de Aprendizado
-- Praticar conceitos de autenticação e autorização
-- Implementar a arquitetura em camadas
-- Trabalhar com relacionamentos entre entidades
-- Aplicar boas práticas como injeção de dependência e DTOs
+> Capturadas rodando a API localmente.
 
-### 📝 Observações
-Apesar do nome “Netflix”, o projeto é apenas uma simulação acadêmica e não tem ligação com a empresa. Seu objetivo é consolidar o conhecimento de APIs com autenticação e estrutura sólida.
+**Swagger com todos os endpoints**
+
+![Swagger com os endpoints](screenshots/swagger-endpoints.png)
+
+**Testando um endpoint pelo "Try it out"**
+
+![Try it out no Swagger](screenshots/swagger-try-it-out.png)
+
+## ✨ O que o projeto tem
+
+- **19 endpoints** organizados em três controllers: `Catalog`, `Category` e `Product`.
+- Rotas com parâmetros de caminho (`merchantId`, `catalogId`, `categoryId`, `productId`, `externalCode`) e de query.
+- **ViewModels** com validação por *Data Annotations* (`[Required]`, `[Range]`; ex.: `limit` de 1 a 200 em `GET /products`) e comentários XML que aparecem no Swagger.
+- **Swagger/OpenAPI** configurado com título, descrição e comentários dos controllers.
+- **Serilog** gravando erros em arquivos `.json` (formato compacto) e `.log`, com rotação diária.
+
+## 🔌 Endpoints
+
+**Catalog**
+
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/merchants/{merchantId}/catalogs` | Lista os catálogos do merchant |
+| GET | `/merchants/{merchantId}/catalogs/{catalogId}/changelog` | Alterações do catálogo em um período (`startDate`, `endDate`) |
+| GET | `/merchants/{merchantId}/catalogs/{catalogId}/unsellableItems` | Categorias/itens que não podem ser vendidos |
+| GET | `/merchants/{merchantId}/catalogs/{groupId}/sellableItems` | Itens disponíveis para venda |
+| GET | `/merchants/{merchantId}/catalogs/version` | Versão do catálogo |
+
+**Category**
+
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/merchants/{merchantId}/catalogs/{catalogId}/categories` | Lista categorias (`includeItems`) |
+| POST | `/merchants/{merchantId}/catalogs/{catalogId}/categories` | Cria categoria |
+| GET | `/merchants/{merchantId}/catalogs/{catalogId}/categories/{categoryId}` | Busca categoria |
+| PATCH | `/merchants/{merchantId}/catalogs/{catalogId}/categories/{categoryId}` | Edita categoria |
+| GET | `/merchants/{merchantId}/categories/{categoryId}/Items` | Itens da categoria |
+| DELETE | `/merchants/{merchantId}/categories/{categoryId}` | Remove categoria |
+
+**Product**
+
+| Método | Rota | Descrição |
+|---|---|---|
+| GET | `/merchants/{merchantId}/products` | Lista produtos (`limit`, `page`) |
+| POST | `/merchants/{merchantId}/products` | Cria produto |
+| GET | `/merchants/{merchantId}/product/{productId}` | Busca produto |
+| PUT | `/merchants/{merchantId}/product/{productId}` | Edita produto |
+| DELETE | `/merchants/{merchantId}/product/{productId}` | Remove produto |
+| PATCH | `/merchants/{merchantId}/products/status` | Atualiza status em lote |
+| PATCH | `/merchants/{merchantId}/products/price` | Atualiza preços em lote |
+| GET | `/merchants/{merchantId}/products/externalCode/{externalCode}` | Busca por código externo |
+
+## 📁 Estrutura do projeto
+
+```
+ifoodapi/IntroAPI/IntroAPI/
+├── IntroAPI.sln
+├── IntroAPI/
+│   ├── Controllers/        # CatalogController, CategoryController, Productcontroller
+│   ├── ViewModel/          # DateViewModel, ItemsViewModel, ProdViewModel, ProductViewModel...
+│   ├── Properties/launchSettings.json
+│   ├── Program.cs          # Serilog + Swagger + Controllers
+│   └── IntroAPI.csproj
+└── ifood/                  # Projeto console auxiliar (Hello World)
+```
+
+## ▶️ Como executar
+
+Pré-requisito: **.NET 8 SDK**.
+
+```bash
+git clone https://github.com/lukinha21/ifood-catalog-api-mock.git
+cd ifood-catalog-api-mock/ifoodapi/IntroAPI/IntroAPI/IntroAPI
+dotnet run
+```
+
+Abra a URL mostrada no terminal (ex.: `http://localhost:5000/index.html`) para acessar o Swagger. Também é possível abrir o `IntroAPI.sln` no Visual Studio e executar com F5.
+
+## 👨‍💻 Autor
+
+**Lucas Alexandre**, estudante de Sistemas de Informação na Unoeste
+
+- GitHub: [@lukinha21](https://github.com/lukinha21)
+- LinkedIn: [Lucas Silva](https://www.linkedin.com/in/lucas-silva-025583180)
