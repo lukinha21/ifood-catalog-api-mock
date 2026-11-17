@@ -7,7 +7,7 @@ namespace IntroAPI.ViewModel
         /// <summary>
         /// Maximum amount of products returned. Maximum value of 200
         /// </summary>
-        [MaxLength (200)]
+        [Range(1, 200)]
         [Required]
         public int limit {  get; set; }
         /// <summary>
